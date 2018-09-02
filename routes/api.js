@@ -14,10 +14,11 @@ const pusher = new Pusher({
 let messages = [];
 
 router.get('/', (req, res) => {
-  var challenge = req.headers['hub_challenge'];
-  var token = req.headers['hub_verify_token'];
+  var challenge = req.query['hub.challenge'];
+  var token = req.query['hub.verify_token']
   if (token == 'myToken123'){
     console.log(`mi token es ${token}`);
+    res.send(token);
   }
   else {
   res.send('all good2');
