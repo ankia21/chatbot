@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
   var token = req.query['hub.verify_token']
   if (token == 'myToken123'){
     console.log(`mi token es ${token}`);
-    res.send(token);
+    res.send(challenge);
   }
   else {
   res.send('all good2');
