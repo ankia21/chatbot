@@ -14,7 +14,14 @@ const pusher = new Pusher({
 let messages = [];
 
 router.get('/', (req, res) => {
-  res.send('all good');
+  var challenge = req.headers['hub_challenge'];
+  var token = req.headers['hub_verify_token'];
+  if (token == 'myToken123'){
+    console.log(`mi token es ${token}`);
+  }
+  else {
+  res.send('all good2');
+  }
 });
 
 router.post('/pusher/auth', (req, res) => {
