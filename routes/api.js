@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
   }
 });
 
-function recievedMessage(event){
+function receivedMessage(event){
   console.log("Message Data:", event.message);
 }
 module.exports = router;
