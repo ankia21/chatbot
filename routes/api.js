@@ -25,8 +25,8 @@ router.get('/', (req, res) => {
   
 });
 router.post('/', (req, res) => {
-  var id = req.body['entry'][0]['id'];
-  console.log(id);
+  var text = req.body['entry'][0]['messaging'][0]['message']['text'];
+  console.log(text);
   res.send("Holas Y");
 });
 /*
