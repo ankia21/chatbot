@@ -3,7 +3,7 @@ const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
 const api = require('./routes/api.js');
-const port = process.env.PORT || '3000';
+const port = process.env.PORT || '4040';
 const app = express();
 
 // define middleware

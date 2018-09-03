@@ -1,22 +1,14 @@
 // api.js
 const express = require('express');
 const router = express.Router();
-const Pusher = require('pusher');
 
-const pusher = new Pusher({
-    appId: '517416',
-    key: 'b5de27e934d03fd0f0a8',
-    secret: 'ec8adfbf587591339607',
-    cluster: 'us2',
-    encrypted: 'true'
-  });
-  
-let messages = [];
+const verifyToken = process.env.FB_VERIFY_TOKEN;
+const accessToken = process.env.FB_ACCESS_TOKEN;
 
 router.get('/', (req, res) => {
   var challenge = req.query['hub.challenge'];
   var token = req.query['hub.verify_token']
-  if (token == 'myToken123'){
+  if (token === verifyToken){
     console.log(`mi token es ${token}`);
     res.send(challenge);
   }
@@ -24,18 +16,39 @@ router.get('/', (req, res) => {
   res.send("holas X");
   
 });
+
 router.post('/', (req, res) => {
-  var text = req.body['entry'][0]['messaging'][0]['message']['text'];
-  console.log(text);
-  res.send("Holas Y");
+  var data = req.body;
+
+  // Make sure this is a page subscription
+  if (data.object === 'page'){
+
+    //iterate over each entry - there may be multiple if batched
+    data.entry.forEach(function(entry){
+      var pageID = entry.id;
+      var timeOfEvent = entry.time;
+
+      //Iterate over each messaging event
+      entry.messaging.forEach(function(event){
+        if (event.message){
+          receivedMessage(event);
+        }
+        else {
+          console.log("webhook received unknown event:",event);
+        }
+      });
+    });
+
+    //Assume all went well
+    //
+    // You must send back a 200, within 20 seconds, to let us know
+    // you've successfully received the callback. Otherwise, the request
+    // will time out and we will keep trying to resend.
+    res.sendStatus(200);
+  }
 });
-/*
-router.post('/pusher/auth', (req, res) => {
-    console.log("estoy x aqui");
-    const socketId = req.body.socket_id;
-    const channel = req.body.channel_name;
-    const auth = pusher.authenticate(socketId, channel);
-    res.send(auth);
-  });
-*/
+
+function recievedMessage(event){
+  console.log("Message Data:", event.message);
+}
 module.exports = router;
