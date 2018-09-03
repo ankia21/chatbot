@@ -20,9 +20,9 @@ router.get('/', (req, res) => {
     console.log(`mi token es ${token}`);
     res.send(challenge);
   }
-  else {
-  res.send('all good2');
-  }
+  console.log(req.body);
+  res.send("holas X");
+  
 });
 
 router.post('/pusher/auth', (req, res) => {
