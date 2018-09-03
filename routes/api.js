@@ -24,7 +24,11 @@ router.get('/', (req, res) => {
   res.send("holas X");
   
 });
-
+router.post('/', (req, res) => {
+  console.log(req.body);
+  res.send("Holas Y");
+});
+/*
 router.post('/pusher/auth', (req, res) => {
     console.log("estoy x aqui");
     const socketId = req.body.socket_id;
@@ -32,5 +36,5 @@ router.post('/pusher/auth', (req, res) => {
     const auth = pusher.authenticate(socketId, channel);
     res.send(auth);
   });
-
+*/
 module.exports = router;
